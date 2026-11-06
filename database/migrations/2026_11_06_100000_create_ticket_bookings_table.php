@@ -8,13 +8,16 @@ return new class extends Migration
 {
     public function up(): void
     {
-        Schema::create('registrations', function (Blueprint $table) {
+        Schema::create('ticket_bookings', function (Blueprint $table) {
             $table->id();
+            $table->string('booking_code', 16)->unique();
             $table->string('full_name');
-            $table->string('email')->unique();
-            $table->string('password');
+            $table->string('email');
+            $table->string('phone', 30);
             $table->date('birthdate');
-            $table->string('course')->default('Cloud Computing 2025');
+            $table->string('ticket_type', 30);
+            $table->unsignedTinyInteger('quantity');
+            $table->unsignedBigInteger('total_price');
             $table->string('confirmation_token', 64)->unique();
             $table->timestamp('confirmation_expires_at');
             $table->timestamp('confirmed_at')->nullable();
@@ -24,6 +27,6 @@ return new class extends Migration
 
     public function down(): void
     {
-        Schema::dropIfExists('registrations');
+        Schema::dropIfExists('ticket_bookings');
     }
 };

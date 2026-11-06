@@ -1,11 +1,11 @@
 <?php
 
-use App\Http\Controllers\RegistrationController;
+use App\Http\Controllers\BookingController;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', [RegistrationController::class, 'create'])->name('registration.create');
-Route::post('/register', [RegistrationController::class, 'store'])
+Route::get('/', [BookingController::class, 'create'])->name('booking.create');
+Route::post('/book', [BookingController::class, 'store'])
     ->middleware('throttle:10,1')
-    ->name('registration.store');
-Route::get('/registered', [RegistrationController::class, 'success'])->name('registration.success');
-Route::get('/confirm/{token}', [RegistrationController::class, 'confirm'])->name('registration.confirm');
+    ->name('booking.store');
+Route::get('/booked', [BookingController::class, 'success'])->name('booking.success');
+Route::get('/confirm/{token}', [BookingController::class, 'confirm'])->name('booking.confirm');

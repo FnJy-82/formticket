@@ -3,160 +3,142 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>@yield('title', 'Cloud Computing 2025') · Registration</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <style>
-        :root {
-            --blue-600: #2563eb;
-            --blue-700: #1d4ed8;
-            --blue-50: #eff6ff;
-            --ink: #0f172a;
-            --muted: #64748b;
-            --line: #e2e8f0;
-            --bg: #f1f5f9;
-            --danger: #dc2626;
-            --success: #16a34a;
-        }
-        * { box-sizing: border-box; }
-        html, body { margin: 0; }
-        body {
-            font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
-            color: var(--ink);
-            background:
-                radial-gradient(900px 500px at 10% -10%, #dbeafe 0%, transparent 60%),
-                radial-gradient(800px 500px at 100% 110%, #e0e7ff 0%, transparent 60%),
-                var(--bg);
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 32px 16px;
-            -webkit-font-smoothing: antialiased;
-        }
-        .card {
-            width: 100%;
-            max-width: 440px;
-            background: #fff;
-            border-radius: 18px;
-            box-shadow: 0 20px 50px -12px rgba(15, 23, 42, .18), 0 2px 6px rgba(15, 23, 42, .06);
-            overflow: hidden;
-            animation: rise .45s ease both;
-        }
-        @keyframes rise { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: none; } }
-        .card-head {
-            background: linear-gradient(135deg, var(--blue-600), #4f46e5);
-            color: #fff;
-            padding: 30px 28px 26px;
-            text-align: center;
-            position: relative;
-        }
-        .card-head::after {
-            content: ''; position: absolute; inset: 0;
-            background: radial-gradient(260px 120px at 85% 0%, rgba(255,255,255,.22), transparent 70%);
-            pointer-events: none;
-        }
-        .badge {
-            width: 52px; height: 52px; border-radius: 14px; margin: 0 auto 14px;
-            background: rgba(255,255,255,.18); display: grid; place-items: center;
-            backdrop-filter: blur(4px);
-        }
-        .badge svg { width: 28px; height: 28px; }
-        .card-head h1 { margin: 0; font-size: 22px; font-weight: 700; letter-spacing: -.01em; }
-        .card-head p { margin: 6px 0 0; font-size: 13px; opacity: .85; }
-        .card-body { padding: 26px 28px 30px; }
-
-        .field { margin-bottom: 16px; }
-        label { display: block; font-size: 13px; font-weight: 600; margin-bottom: 6px; color: #1e293b; }
-        .control { position: relative; }
-        input[type=text], input[type=email], input[type=password], input[type=date] {
-            width: 100%; font: inherit; font-size: 14px; color: var(--ink);
-            padding: 11px 13px; border: 1px solid var(--line); border-radius: 10px; background: #fff;
-            transition: border-color .15s, box-shadow .15s;
-        }
-        input::placeholder { color: #94a3b8; }
-        input:focus { outline: none; border-color: var(--blue-600); box-shadow: 0 0 0 4px rgba(37, 99, 235, .14); }
-        input.invalid { border-color: var(--danger); }
-        input.invalid:focus { box-shadow: 0 0 0 4px rgba(220, 38, 38, .12); }
-        .error { color: var(--danger); font-size: 12.5px; margin-top: 6px; }
-        .hint { color: var(--muted); font-size: 12px; margin-top: 6px; }
-
-        .toggle {
-            position: absolute; right: 8px; top: 50%; transform: translateY(-50%);
-            border: 0; background: none; cursor: pointer; color: var(--muted);
-            font: inherit; font-size: 12px; font-weight: 600; padding: 6px 8px; border-radius: 6px;
-        }
-        .toggle:hover { color: var(--blue-600); background: var(--blue-50); }
-        .control.has-toggle input { padding-right: 58px; }
-
-        .meter { display: flex; gap: 4px; margin-top: 8px; }
-        .meter span { flex: 1; height: 4px; border-radius: 4px; background: var(--line); transition: background .2s; }
-        .meter[data-level="1"] span:nth-child(-n+1) { background: #ef4444; }
-        .meter[data-level="2"] span:nth-child(-n+2) { background: #f59e0b; }
-        .meter[data-level="3"] span:nth-child(-n+3) { background: #84cc16; }
-        .meter[data-level="4"] span:nth-child(-n+4) { background: var(--success); }
-
-        .btn {
-            width: 100%; margin-top: 6px; border: 0; cursor: pointer; font: inherit;
-            font-size: 15px; font-weight: 600; color: #fff; padding: 13px 16px; border-radius: 10px;
-            background: linear-gradient(135deg, var(--blue-600), var(--blue-700));
-            box-shadow: 0 8px 18px -6px rgba(37, 99, 235, .55);
-            transition: transform .12s, box-shadow .12s, filter .12s;
-        }
-        .btn:hover { transform: translateY(-1px); filter: brightness(1.05); }
-        .btn:active { transform: translateY(0); }
-        .btn[disabled] { opacity: .7; cursor: progress; transform: none; }
-        .btn-link {
-            display: inline-block; text-decoration: none; text-align: center;
-        }
-
-        .alert {
-            border-radius: 10px; padding: 11px 13px; font-size: 13px; margin-bottom: 18px;
-            background: #fef2f2; color: #991b1b; border: 1px solid #fecaca;
-        }
-
-        .status { text-align: center; }
-        .status .icon {
-            width: 64px; height: 64px; border-radius: 50%; margin: 4px auto 16px;
-            display: grid; place-items: center; font-size: 30px;
-        }
-        .icon.ok { background: #dcfce7; color: var(--success); }
-        .icon.warn { background: #fef3c7; color: #d97706; }
-        .icon.bad { background: #fee2e2; color: var(--danger); }
-        .icon.mail { background: var(--blue-50); color: var(--blue-600); }
-        .status h2 { margin: 0 0 8px; font-size: 20px; letter-spacing: -.01em; }
-        .status p { margin: 0 0 18px; color: var(--muted); font-size: 14px; line-height: 1.6; }
-        .status strong { color: var(--ink); }
-
-        .foot { text-align: center; font-size: 12px; color: var(--muted); margin-top: 18px; }
-        .wrap { width: 100%; max-width: 440px; }
-
-        @media (max-width: 480px) {
-            .card-body { padding: 22px 20px 26px; }
-            .card-head { padding: 26px 20px 22px; }
-        }
-    </style>
+    <title>Booking Confirmation</title>
 </head>
-<body>
-    <div class="wrap">
-        <main class="card">
-            <header class="card-head">
-                <div class="badge">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                        <path d="M7 18a4.5 4.5 0 0 1-.6-8.96A6 6 0 0 1 18 8.5a4 4 0 0 1-.5 7.97"/>
-                        <path d="M7 18h10.5"/>
-                    </svg>
-                </div>
-                <h1>Cloud Computing 2025</h1>
-                <p>@yield('subtitle', 'Registration Form')</p>
-            </header>
-            <div class="card-body">
-                @yield('content')
-            </div>
-        </main>
-        <div class="foot">&copy; {{ date('Y') }} Cloud Computing Class</div>
-    </div>
-    @stack('scripts')
+<body style="margin:0;padding:0;background:#0f0a24;font-family:Arial,Helvetica,sans-serif;color:#0f172a;">
+<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:#0f0a24;padding:28px 12px;">
+    <tr>
+        <td align="center">
+            <table role="presentation" width="600" cellpadding="0" cellspacing="0" style="width:100%;max-width:600px;background:#ffffff;border-radius:16px;overflow:hidden;">
+                <!-- Header -->
+                <tr>
+                    <td align="center" style="background:#6d28d9;background-image:linear-gradient(135deg,#1e1b4b,#7c3aed 60%,#db2777);padding:34px 24px;">
+                        <div style="font-size:26px;line-height:1.2;font-weight:800;color:#ffffff;">&#127926; {{ config('concert.name') }}</div>
+                        <div style="font-size:13px;color:#e9d5ff;margin-top:6px;">Booking Confirmation</div>
+                        <div style="margin-top:14px;font-size:13px;color:#ffffff;">
+                            {{ config('concert.date_label') }} &middot; {{ config('concert.venue') }}
+                        </div>
+                    </td>
+                </tr>
+
+                <!-- Greeting -->
+                <tr>
+                    <td style="padding:30px 32px 8px;">
+                        <p style="margin:0 0 14px;font-size:16px;">Hello <strong>{{ $booking->full_name }}</strong>!</p>
+                        <p style="margin:0;font-size:14px;line-height:1.65;color:#334155;">
+                            Thank you for booking tickets to <strong>{{ config('concert.name') }}</strong>.
+                            We can't wait to see you at the show! Here is a summary of your booking:
+                        </p>
+                    </td>
+                </tr>
+
+                <!-- Booking code -->
+                <tr>
+                    <td align="center" style="padding:20px 32px 0;">
+                        <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:#faf5ff;border:1px dashed #c4b5fd;border-radius:10px;">
+                            <tr>
+                                <td align="center" style="padding:14px;">
+                                    <div style="font-size:11px;letter-spacing:1.5px;text-transform:uppercase;color:#64748b;">Booking code</div>
+                                    <div style="font-size:26px;font-weight:800;letter-spacing:3px;color:#6d28d9;margin-top:4px;">{{ $booking->booking_code }}</div>
+                                </td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+
+                <!-- Details -->
+                <tr>
+                    <td style="padding:18px 32px;">
+                        <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:#f8fafc;border:1px solid #e2e8f0;border-left:4px solid #7c3aed;border-radius:8px;">
+                            <tr>
+                                <td style="padding:16px 20px;">
+                                    <div style="font-size:14px;font-weight:700;margin-bottom:10px;">&#127915; Booking Details</div>
+                                    <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="font-size:14px;">
+                                        <tr>
+                                            <td style="padding:5px 0;color:#64748b;width:120px;">Full Name</td>
+                                            <td style="padding:5px 0;font-weight:600;">{{ $booking->full_name }}</td>
+                                        </tr>
+                                        <tr>
+                                            <td style="padding:5px 0;color:#64748b;">Email</td>
+                                            <td style="padding:5px 0;"><a href="mailto:{{ $booking->email }}" style="color:#7c3aed;">{{ $booking->email }}</a></td>
+                                        </tr>
+                                        <tr>
+                                            <td style="padding:5px 0;color:#64748b;">Phone</td>
+                                            <td style="padding:5px 0;font-weight:600;">{{ $booking->phone }}</td>
+                                        </tr>
+                                        <tr>
+                                            <td style="padding:5px 0;color:#64748b;">Birthdate</td>
+                                            <td style="padding:5px 0;font-weight:600;">{{ $booking->birthdate->format('F j, Y') }}</td>
+                                        </tr>
+                                        <tr>
+                                            <td style="padding:5px 0;color:#64748b;">Ticket</td>
+                                            <td style="padding:5px 0;font-weight:600;">{{ $booking->ticketLabel() }}</td>
+                                        </tr>
+                                        <tr>
+                                            <td style="padding:5px 0;color:#64748b;">Quantity</td>
+                                            <td style="padding:5px 0;font-weight:600;">{{ $booking->quantity }}</td>
+                                        </tr>
+                                        <tr>
+                                            <td style="padding:5px 0;color:#64748b;">Total</td>
+                                            <td style="padding:5px 0;font-weight:800;color:#6d28d9;">{{ $booking->totalFormatted() }}</td>
+                                        </tr>
+                                        <tr>
+                                            <td style="padding:5px 0;color:#64748b;">Event</td>
+                                            <td style="padding:5px 0;font-weight:600;">{{ config('concert.date_label') }}<br><span style="font-weight:400;color:#64748b;">{{ config('concert.time_label') }}</span></td>
+                                        </tr>
+                                        <tr>
+                                            <td style="padding:5px 0;color:#64748b;">Venue</td>
+                                            <td style="padding:5px 0;font-weight:600;">{{ config('concert.venue') }}</td>
+                                        </tr>
+                                    </table>
+                                </td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+
+                <!-- Button -->
+                <tr>
+                    <td style="padding:4px 32px 0;">
+                        <p style="margin:0 0 18px;font-size:14px;line-height:1.65;color:#334155;">
+                            To secure your tickets, please confirm your booking by clicking the button below:
+                        </p>
+                    </td>
+                </tr>
+                <tr>
+                    <td align="center" style="padding:0 32px 22px;">
+                        <a href="{{ $confirmUrl }}"
+                           style="display:inline-block;background:#16a34a;color:#ffffff;text-decoration:none;font-size:15px;font-weight:700;padding:15px 32px;border-radius:8px;">
+                            &#127915; Confirm My Booking
+                        </a>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td style="padding:0 32px 24px;">
+                        <p style="margin:0;font-size:13px;line-height:1.6;color:#334155;">
+                            <strong>Important:</strong> Please confirm within {{ config('concert.hold_days') }} days
+                            (before {{ $booking->confirmation_expires_at->format('F j, Y') }}).
+                            Unconfirmed bookings are released so other fans can get their tickets.
+                        </p>
+                        <p style="margin:14px 0 0;font-size:12px;line-height:1.6;color:#94a3b8;">
+                            If the button doesn't work, copy and paste this link into your browser:<br>
+                            <a href="{{ $confirmUrl }}" style="color:#7c3aed;word-break:break-all;">{{ $confirmUrl }}</a>
+                        </p>
+                    </td>
+                </tr>
+
+                <!-- Footer -->
+                <tr>
+                    <td align="center" style="border-top:1px solid #e2e8f0;padding:20px 32px 26px;font-size:12px;line-height:1.7;color:#94a3b8;">
+                        Thank you for choosing {{ config('concert.name') }}!<br>
+                        If you have any questions, please contact us at
+                        <a href="mailto:{{ $supportEmail }}" style="color:#7c3aed;">{{ $supportEmail }}</a>
+                    </td>
+                </tr>
+            </table>
+        </td>
+    </tr>
+</table>
 </body>
 </html>
